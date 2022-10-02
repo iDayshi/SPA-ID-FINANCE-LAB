@@ -31,7 +31,7 @@ const CheckBoxField: React.FC<ICheckBoxField> = ({
   };
 
   return (
-    <div key={value} className="form-check mb-3">
+    <div key={value} className="form-check m-2">
       <input
         className={getInputClasses()}
         type="checkbox"

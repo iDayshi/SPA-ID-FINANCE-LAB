@@ -5,11 +5,23 @@ import SelectField from '../common/selectField';
 import RadioField from '../common/radioField';
 import CheckBoxField from '../common/checkBoxField';
 import { getHobbies } from '../../store/hobby';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getOceans } from '../../store/ocean';
 import shema from '../../data/schema.json';
+import ModalWindow from '../common/modalWindow';
+import { updatePersonalInfo } from '../../store/personalInfo';
+// import DateField from '../common/dateField';
 
 type IErrors = {
+  firstName?: string;
+  lastName?: string;
+  sex?: string;
+  birthday?: string;
+  ocean?: string;
+  hobbies?: string;
+};
+
+type IPersonalInfo = {
   firstName?: string;
   lastName?: string;
   sex?: string;
@@ -18,8 +30,8 @@ type IErrors = {
   hobbies?: string[];
 };
 
-const PersonalInfo = () => {
-  const [data, setData] = useState({
+const PersonalInfo = ({ formType }: { formType: () => void }) => {
+  const [data, setData] = useState<IPersonalInfo>({
     firstName: '',
     lastName: '',
     sex: 'male',
@@ -27,28 +39,37 @@ const PersonalInfo = () => {
     ocean: '',
     hobbies: [],
   });
-
+  const dispatch = useDispatch();
   const [errors, setErrors] = useState<IErrors>({});
+  const [modalShow, setModalShow] = useState(false);
   const hobbies: string[] = useSelector(getHobbies());
-  const oceans = useSelector(getOceans());
+  const oceans: string[] = useSelector(getOceans());
 
   const handleChange = (target: {
     name: string;
     value: string;
     checked?: boolean;
   }) => {
-    console.log(target);
+    if (target.name === 'hobbies') {
+      data.hobbies?.push(target.value);
+    }
+    const newData =
+      target.name === 'hobbies'
+        ? target.checked
+          ? data.hobbies
+          : data.hobbies?.filter((hobby) => hobby !== target.value)
+        : target.value;
 
     setData((PrevState) => ({
       ...PrevState,
-      [target.name]: target.value,
+      [target.name]: newData,
     }));
   };
 
   const validatorConfig = {
     firstName: {
       isRequired: shema.firstName.required
-        ? { message: 'Электронная почта обязательна для заполнения' }
+        ? { message: 'First Name number is required' }
         : '',
       min: {
         message: `First Name must be at least ${shema.firstName.minLength} characters long`,
@@ -61,15 +82,15 @@ const PersonalInfo = () => {
     },
     lastName: {
       isRequired: shema.lastName.required
-        ? { message: 'Имя обязательно для заполнения' }
+        ? { message: 'Last Name number is required' }
         : '',
       min: {
         message: `Password must be at least ${shema.password.minLength} characters long`,
-        value: shema.password.minLength,
+        value: shema.lastName.minLength,
       },
       max: {
         message: `Password must be maximum ${shema.password.maxLength} characters`,
-        value: shema.password.maxLength,
+        value: shema.lastName.maxLength,
       },
     },
     sex: {
@@ -109,19 +130,19 @@ const PersonalInfo = () => {
 
   const isValid = Object.keys(errors).length === 0;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const isValid = validate();
-    if (!isValid) return;
-    // const newData = { ...data, qualities: data.qualities.map((q) => q.value) };
-    // dispatch(signUp(newData));
+  const handleSubmit = () => {
+    // @ts-ignore
+    dispatch(updatePersonalInfo({ payload: data }));
+    setModalShow(!modalShow);
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
+  return modalShow ? (
+    <ModalWindow show={modalShow} onHide={() => setModalShow(false)} />
+  ) : (
+    <form>
       <TextField
         label="First Name"
-        name="firsName"
+        name="firstName"
         value={data.firstName}
         onChange={handleChange}
         error={errors.firstName}
@@ -145,7 +166,7 @@ const PersonalInfo = () => {
         label="Choose your gender"
       />
       <SelectField
-        label="choose your favorite ocean"
+        label="Your favorite ocean"
         defaultOption="Choose..."
         options={oceans}
         name="ocean"
@@ -153,24 +174,33 @@ const PersonalInfo = () => {
         value={data.ocean}
         error={errors.ocean}
       />
-      {hobbies.map((hobby) => {
-        return (
-          <CheckBoxField
-            value={hobby}
-            onChange={handleChange}
-            name="hobbies"
-            error={errors.hobbies}
-          />
-        );
-      })}
-
-      <button
-        type="submit"
-        disabled={!isValid}
-        className="btn btn-primary w-100 mx-auto"
-      >
-        Войти
-      </button>
+      <div>
+        <p className="m-1">Your favorite hobbies</p>
+        <div className="d-flex flex-row">
+          {hobbies.map((hobby) => {
+            return (
+              <CheckBoxField
+                value={hobby}
+                onChange={handleChange}
+                name="hobbies"
+                error={errors.hobbies}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="d-flex flex-row">
+        <button className="btn btn-warning w-100 m-1" onClick={formType}>
+          Change SingUp
+        </button>
+        <button
+          className="btn btn-info w-100 m-1"
+          disabled={!isValid}
+          onClick={handleSubmit}
+        >
+          Complete
+        </button>
+      </div>
     </form>
   );
 };

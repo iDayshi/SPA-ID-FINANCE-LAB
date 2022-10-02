@@ -2,7 +2,6 @@ import shema from '../data/schema.json';
 
 export function validator(data: any, config: any) {
   const errors: any = {};
-  console.log(data);
 
   function validate(
     validateMethod: string,
@@ -22,8 +21,13 @@ export function validator(data: any, config: any) {
 
         break;
       }
-      case 'isEmail': {
+			case 'isEmail': {
         const emailRegExp: RegExp = new RegExp(shema.email.regExp);
+        statusValidate = !emailRegExp.test(data);
+        break;
+      }
+      case 'isPhone': {
+        const emailRegExp: RegExp = new RegExp(shema.mobilePhone.regExp);
         statusValidate = !emailRegExp.test(data);
         break;
       }

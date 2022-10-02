@@ -4,6 +4,7 @@ import TextField from '../common/textField';
 import shema from '../../data/schema.json';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSignUpInfo, updateSignUpInfo } from '../../store/signUpInfo';
+import PhoneFiled from '../common/phoneField';
 
 type IErrors = {
   phone?: string;
@@ -26,6 +27,7 @@ const SignUpInfo = ({ formType }: { formType: () => void }) => {
   const [errors, setErrors] = useState<IErrors>({});
 
   const handleChange = (target: { name: string; value: string }) => {
+    console.log(target.value.replace(new RegExp(shema.mobilePhone.regExp), ''));
     setData((PrevState: any) => ({
       ...PrevState,
       [target.name]: target.value,
@@ -102,7 +104,7 @@ const SignUpInfo = ({ formType }: { formType: () => void }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <TextField
+        <PhoneFiled
           label="Mobile phone"
           name="phone"
           value={data.phone}

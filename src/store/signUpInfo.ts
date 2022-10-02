@@ -19,7 +19,7 @@ const { SignUpInfoRequested } = actions;
 
 export const updateSignUpInfo =
   ({ payload }: { payload: any }) =>
-  async (dispatch: any, getState: any) => {
+  (dispatch: any) => {
     dispatch(SignUpInfoRequested(payload));
   };
 

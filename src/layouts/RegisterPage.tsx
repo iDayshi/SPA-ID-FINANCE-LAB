@@ -17,8 +17,6 @@ const RegisterPage = () => {
   }, [dispatch]);
 
   const toggleFormType = () => {
-    console.log(formType);
-
     setFormType((prevState) => (prevState === 'first' ? 'second' : 'first'));
   };
 
@@ -34,13 +32,7 @@ const RegisterPage = () => {
           ) : (
             <>
               <h3 className="mb-4">Registration Step 2</h3>
-              <PersonalInfo />
-              <button className="ms-3" onClick={toggleFormType}>
-                Change SingUp
-              </button>
-              <button className="ms-3" onClick={toggleFormType}>
-                Complete
-              </button>
+              <PersonalInfo formType={toggleFormType} />
             </>
           )}
         </div>

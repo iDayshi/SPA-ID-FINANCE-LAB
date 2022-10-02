@@ -3,10 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const PersonalInfoSlice = createSlice({
   name: 'personalInfo',
   initialState: {
+    entities: null,
     isLogin: false,
   },
   reducers: {
-    PersonalInfoRequested: (state) => {
+    PersonalInfoRequested: (state, action) => {
+      state.entities = action.payload;
       state.isLogin = true;
     },
   },
@@ -16,8 +18,13 @@ const { reducer: personalInfoReducer, actions } = PersonalInfoSlice;
 const { PersonalInfoRequested } = actions;
 
 export const updatePersonalInfo =
-  () => async (dispatch: any, getState: any) => {
-    dispatch(PersonalInfoRequested());
+  ({ payload }: { payload: any }) =>
+  async (dispatch: any) => {
+    dispatch(PersonalInfoRequested(payload));
   };
+
+export const getPersonalInfo =
+  () => (state: { personalInfo: { entities: any } }) =>
+    state.personalInfo.entities;
 
 export default personalInfoReducer;
