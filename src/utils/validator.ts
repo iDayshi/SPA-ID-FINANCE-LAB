@@ -51,6 +51,14 @@ export function validator(data: any, config: any) {
         statusValidate = data.length > config.value;
         break;
       }
+      case 'maxDate': {
+        statusValidate = Number(data) > config.value;
+        break;
+      }
+      case 'minDate': {
+        statusValidate = Number(data) < config.value;
+        break;
+      }
       case 'isRepeat': {
         statusValidate = data !== checkPassword;
         break;

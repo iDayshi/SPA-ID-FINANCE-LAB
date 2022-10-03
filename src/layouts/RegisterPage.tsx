@@ -22,7 +22,10 @@ const RegisterPage = () => {
 
   return (
     <div className="container">
-      <div className="row" style={{ padding: '65px' }}>
+      <div
+        className="row"
+        style={{ paddingBottom: '65px', paddingTop: '65px' }}
+      >
         <div className="col-md-6 offset-md-3 shadow p-3 bg-light bg-gradient rounded-3">
           {formType === 'first' ? (
             <>

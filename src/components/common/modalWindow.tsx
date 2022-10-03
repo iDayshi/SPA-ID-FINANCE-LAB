@@ -23,10 +23,12 @@ function ModalWindow({ show, onHide }: { show: boolean; onHide: () => void }) {
         }`}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Information</p>
-        <p>{signUpInfo.phone}</p>
-        <p>{signUpInfo.email}</p>
+        <p>Information User</p>
+        <p>Phone:{signUpInfo.phone}</p>
+        <p>Email:{signUpInfo.email}</p>
         <p>Gender: {personalInfo.sex}</p>
+        <p>Favorite ocean: {personalInfo.ocean}</p>
+        <p>Favorite ocean: {personalInfo.ocean}</p>
         <p>Favorite ocean: {personalInfo.ocean}</p>
         <p>Hobbies: {personalInfo.hobbies}</p>
       </Modal.Body>

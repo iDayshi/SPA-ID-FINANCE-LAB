@@ -16,18 +16,24 @@ type IErrors = {
   firstName?: string;
   lastName?: string;
   sex?: string;
-  birthday?: string;
+  day?: string;
+  month?: string;
+  year?: string;
+  age?: string;
   ocean?: string;
   hobbies?: string;
 };
 
 type IPersonalInfo = {
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
   sex: string;
-  birthday?: string;
-  ocean?: string;
-  hobbies?: string[];
+  day: string;
+  month: string;
+  year: string;
+  age: string;
+  ocean: string;
+  hobbies: string[];
 };
 
 const PersonalInfo = ({ formType }: { formType: () => void }) => {
@@ -35,7 +41,10 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
     firstName: '',
     lastName: '',
     sex: '',
-    birthday: '',
+    day: '',
+    month: '',
+    year: '',
+    age: '',
     ocean: '',
     hobbies: [],
   });
@@ -53,6 +62,31 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
     if (target.name === 'hobbies') {
       data.hobbies?.push(target.value);
     }
+
+    if (
+      target.name === 'day' ||
+      target.name === 'month' ||
+      target.name === 'year'
+    ) {
+      let today = new Date();
+      let birthDate = new Date(
+        target.name === 'year' ? +target.value : +data.year,
+        target.name === 'month' ? +target.value - 1 : +data.month - 1,
+        target.name === 'day' ? +target.value : +data.day
+      );
+
+      let ageUser = today.getFullYear() - birthDate.getFullYear();
+      let m = today.getMonth() - birthDate.getMonth();
+
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        ageUser--;
+      }
+      setData((PrevState) => ({
+        ...PrevState,
+        age: ageUser.toString(),
+      }));
+    }
+
     const newData =
       target.name === 'hobbies'
         ? target.checked
@@ -97,6 +131,52 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
       isRequired: shema.sex.required
         ? {
             message: 'Please select your gender',
+          }
+        : '',
+    },
+    day: {
+      isRequired: shema.firstName.required
+        ? { message: 'Day is required' }
+        : '',
+      minDate: {
+        message: `Minimum 1`,
+        value: 1,
+      },
+      maxDate: {
+        message: `Maximum 31`,
+        value: 31,
+      },
+    },
+    month: {
+      isRequired: shema.firstName.required
+        ? { message: 'Month is required' }
+        : '',
+      minDate: {
+        message: `Minimum 1`,
+        value: 1,
+      },
+      maxDate: {
+        message: `Minimum 12`,
+        value: 12,
+      },
+    },
+    year: {
+      isRequired: shema.firstName.required
+        ? { message: 'Year is required' }
+        : '',
+      minDate: {
+        message: `Minimum 1900`,
+        value: 1900,
+      },
+      maxDate: {
+        message: `Maximum 2050`,
+        value: 2050,
+      },
+    },
+    age: {
+      isRequired: shema.sex.required
+        ? {
+            message: 'Please enter your birthday',
           }
         : '',
     },
@@ -166,11 +246,26 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
         label="Choose your gender"
         error={errors.sex}
       />
+      <p className="m-1">Your birthday</p>
       <DateField
-        name="birthday"
+        day={data.day}
+        month={data.month}
+        year={data.year}
         onChange={handleChange}
-        error={errors.ocean}
+        error={errors}
       />
+      {errors && (
+        <div
+          style={{
+            width: '100%',
+            marginTop: '0.25rem',
+            fontSize: '0.875em',
+            color: '#dc3545',
+          }}
+        >
+          {errors.age}
+        </div>
+      )}
       <SelectField
         label="Your favorite ocean"
         defaultOption="Choose..."
@@ -179,15 +274,34 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
         onChange={handleChange}
         error={errors.ocean}
       />
-
-      <p className="m-1">Your favorite hobbies</p>
-      <CheckBoxField
-        onChange={handleChange}
-        name="hobbies"
-        options={hobbies}
-        error={errors.hobbies}
-      />
-
+      <div>
+        <p className="m-1">Your favorite hobbies</p>
+        <div className="d-flex flex-row">
+          {hobbies.map((hobby) => {
+            return (
+              <CheckBoxField
+                key={hobby}
+                value={hobby}
+                onChange={handleChange}
+                name="hobbies"
+                error={errors.hobbies}
+              />
+            );
+          })}
+        </div>
+        {errors && (
+          <div
+            style={{
+              width: '100%',
+              marginTop: '0.25rem',
+              fontSize: '0.875em',
+              color: '#dc3545',
+            }}
+          >
+            {errors.hobbies}
+          </div>
+        )}
+      </div>
       <div className="d-flex flex-row">
         <button className="btn btn-warning w-100 m-1" onClick={formType}>
           Change SingUp
