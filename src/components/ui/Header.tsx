@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../assets/redux.svg';
+import logo from '../../assets/react.svg';
 import SVG from 'react-inlinesvg';
 
-const Footer = styled.footer`
+const Header = styled.header`
   width: 100%;
   background: #111;
-  position: absolute;
-  left: 0;
-  bottom: 0;
   max-height: 200px;
 `;
 
@@ -17,19 +14,18 @@ const Container = styled.div`
 `;
 
 const StyledSVG = styled(SVG)`
-  width: 30px;
-  height: 30px;
-  margin: 10px;
+  width: 50px;
+  height: 50px;
 `;
 
-const FooterStyledComponent = () => {
+const HeaderStyledComponent = () => {
   return (
-    <Footer>
+    <Header>
       <Container>
         <StyledSVG src={logo} />
       </Container>
-    </Footer>
+    </Header>
   );
 };
 
-export default FooterStyledComponent;
+export default HeaderStyledComponent;

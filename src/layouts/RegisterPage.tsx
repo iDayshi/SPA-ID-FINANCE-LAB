@@ -21,7 +21,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="container mt-5 ">
+    <div className="container mt-3 ">
       <div className="row">
         <div className="col-md-6 offset-md-3 shadow p-4 bg-light bg-gradient rounded-3">
           {formType === 'first' ? (
