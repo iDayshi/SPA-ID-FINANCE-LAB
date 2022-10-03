@@ -24,7 +24,7 @@ const SignUpInfo = ({ formType }: { formType: () => void }) => {
   const qualities: ISignUpInfo = useSelector(getSignUpInfo());
   const [data, setData] = useState<ISignUpInfo>(
     qualities || {
-      phone: '+375',
+      phone: '',
       email: '',
       password: '',
       repeatPassword: '',

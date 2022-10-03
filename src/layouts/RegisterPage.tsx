@@ -21,17 +21,19 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="container mt-3 ">
-      <div className="row">
-        <div className="col-md-6 offset-md-3 shadow p-4 bg-light bg-gradient rounded-3">
+    <div className="container">
+      <div className="row" style={{ padding: '65px' }}>
+        <div className="col-md-6 offset-md-3 shadow p-3 bg-light bg-gradient rounded-3">
           {formType === 'first' ? (
             <>
-              <h3 className="mb-4">Registration Step 1</h3>
+              <h4 className="mb-1 text-center text-primary">Registration</h4>
+              <h5 className="mb-1 text-primary">Step SignUpInfo</h5>
               <SignUpInfo formType={toggleFormType} />
             </>
           ) : (
             <>
-              <h3 className="mb-4">Registration Step 2</h3>
+              <h4 className="mb-1 text-center text-primary">Registration</h4>
+              <h5 className="mb-1 text-primary">Step PersonalInfo</h5>
               <PersonalInfo formType={toggleFormType} />
             </>
           )}

@@ -6,7 +6,11 @@ import SVG from 'react-inlinesvg';
 const Header = styled.header`
   width: 100%;
   background: #111;
+  position: fixed;
+  left: 0;
+  top: 0;
   max-height: 200px;
+  z-index: 100;
 `;
 
 const Container = styled.div`

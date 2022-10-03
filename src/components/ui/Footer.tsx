@@ -6,10 +6,11 @@ import SVG from 'react-inlinesvg';
 const Footer = styled.footer`
   width: 100%;
   background: #111;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   max-height: 200px;
+	z-index: 100;
 `;
 
 const Container = styled.div`
