@@ -13,11 +13,18 @@ type IErrors = {
   repeatPassword?: string;
 };
 
+type ISignUpInfo = {
+  phone: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+};
+
 const SignUpInfo = ({ formType }: { formType: () => void }) => {
-  const qualities = useSelector(getSignUpInfo());
-  const [data, setData] = useState(
+  const qualities: ISignUpInfo = useSelector(getSignUpInfo());
+  const [data, setData] = useState<ISignUpInfo>(
     qualities || {
-      phone: '',
+      phone: '+375',
       email: '',
       password: '',
       repeatPassword: '',
@@ -27,8 +34,7 @@ const SignUpInfo = ({ formType }: { formType: () => void }) => {
   const [errors, setErrors] = useState<IErrors>({});
 
   const handleChange = (target: { name: string; value: string }) => {
-    console.log(target.value.replace(new RegExp(shema.mobilePhone.regExp), ''));
-    setData((PrevState: any) => ({
+    setData((PrevState: ISignUpInfo) => ({
       ...PrevState,
       [target.name]: target.value,
     }));
@@ -102,47 +108,49 @@ const SignUpInfo = ({ formType }: { formType: () => void }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <PhoneFiled
-          label="Mobile phone"
-          name="phone"
-          value={data.phone}
-          onChange={handleChange}
-          error={errors?.phone}
-        />
-        <TextField
-          label="Email"
-          name="email"
-          value={data.email}
-          onChange={handleChange}
-          error={errors?.email}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          name="password"
-          value={data.password}
-          onChange={handleChange}
-          error={errors?.password}
-        />
-        <TextField
-          label="Repeat password"
-          type="password"
-          name="repeatPassword"
-          value={data.repeatPassword}
-          onChange={handleChange}
-          error={errors?.repeatPassword}
-        />
-        <button
-          disabled={!isValid}
-          className="btn btn-primary w-100 mx-auto"
-          onClick={handleSubmit}
-        >
-          Войти
-        </button>
-      </form>
-    </div>
+    <>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <PhoneFiled
+            label="Mobile phone"
+            name="phone"
+            value={data.phone}
+            onChange={handleChange}
+            error={errors?.phone}
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={data.email}
+            onChange={handleChange}
+            error={errors?.email}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            value={data.password}
+            onChange={handleChange}
+            error={errors?.password}
+          />
+          <TextField
+            label="Repeat password"
+            type="password"
+            name="repeatPassword"
+            value={data.repeatPassword}
+            onChange={handleChange}
+            error={errors?.repeatPassword}
+          />
+          <button
+            disabled={!isValid}
+            className="btn btn-info w-100 mx-auto"
+            onClick={handleSubmit}
+          >
+            Next
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 

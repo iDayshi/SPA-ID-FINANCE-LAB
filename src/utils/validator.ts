@@ -16,12 +16,14 @@ export function validator(data: any, config: any) {
         if (typeof data === 'boolean') {
           statusValidate = !data;
         } else {
-          statusValidate = Array.isArray(data) ? '' : data.trim() === '';
+          statusValidate = Array.isArray(data)
+            ? !data.length
+            : data.trim() === '';
         }
 
         break;
       }
-			case 'isEmail': {
+      case 'isEmail': {
         const emailRegExp: RegExp = new RegExp(shema.email.regExp);
         statusValidate = !emailRegExp.test(data);
         break;

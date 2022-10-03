@@ -9,9 +9,6 @@ import { getPersonalInfo } from '../../store/personalInfo';
 function ModalWindow({ show, onHide }: { show: boolean; onHide: () => void }) {
   const signUpInfo = useSelector(getSignUpInfo());
   const personalInfo = useSelector(getPersonalInfo());
-  console.log(signUpInfo);
-  console.log(personalInfo);
-
   return (
     <Modal
       show={show}

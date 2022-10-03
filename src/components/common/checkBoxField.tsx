@@ -10,41 +10,54 @@ type ICheckBoxField = {
     value: string;
     checked: boolean;
   }) => void;
-  error: any;
-  value: string;
+  error?: string;
+  options: string[];
 };
 
 const CheckBoxField: React.FC<ICheckBoxField> = ({
   name,
-  value,
+  options,
   onChange,
   error,
 }) => {
   const [checked, setChecked] = useState(true);
-  const handleChange = () => {
+  const handleChange = ({ target }: { target: { value: string } }) => {
     setChecked(!checked);
-    onChange({ name: name, value: value, checked });
-  };
-
-  const getInputClasses = () => {
-    return 'form-check-input' + (error ? ' is-invalid' : '');
+    onChange({ name: name, value: target.value, checked });
   };
 
   return (
-    <div key={value} className="form-check m-2">
-      <input
-        className={getInputClasses()}
-        type="checkbox"
-        value={value}
-        id={name}
-        onChange={handleChange}
-        checked={!checked}
-      />
-      <label className="form-check-label" htmlFor="flexCheckDefault">
-        {value}
-      </label>
-      {error && <div className="invalid-feedback">{error}</div>}
-    </div>
+    <>
+      <div className="mb-2">
+        {options.map((option) => (
+          <div key={option} className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={option}
+              id={option}
+              onChange={handleChange}
+              checked={!checked}
+            />
+            <label className="form-check-label" htmlFor={option}>
+              {option}
+            </label>
+          </div>
+        ))}
+      </div>
+      {error && (
+        <div
+          style={{
+            width: '100%',
+            marginTop: '0.25rem',
+            fontSize: '0.875em',
+            color: '#dc3545',
+          }}
+        >
+          {error}
+        </div>
+      )}
+    </>
   );
 };
 

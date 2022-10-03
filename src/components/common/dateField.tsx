@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const DateField = ({ label, name, value, onChange, error }) => {
-  const handleChange = ({ target }) => {
+type IOptions = {
+  name: string;
+  value: string;
+};
+
+type IDateField = {
+  label: string;
+  name: string;
+  onChange: (target: { name: string; value: string }) => void;
+  error?: any;
+};
+
+const DateField: FC<IDateField> = ({ label, name, onChange, error }) => {
+  const handleChange = ({ target }: { target: IOptions }) => {
     onChange({ name: target.name, value: target.value });
   };
   const getInputClasses = () => {
-    return 'form-control' + (error ? ' is-invalid' : '');
+    return 'form-select w-25' + (error ? ' is-invalid' : '');
   };
 
   return (
-    <div className="mb-4">
-      <label htmlFor={name}> {label}</label>
-      <div className="input-group has-validation">
-        <input type="date" min="1900" max="2099" step="1" value="2018" />
-
-        {error && <div className="invalid-feedback ">{error}</div>}
-      </div>
+    <div className="mb-3 d-flex">
+      <input
+        type="text"
+        id={name}
+        name={name}
+        value={''}
+        onChange={handleChange}
+        className={getInputClasses()}
+      />
+      {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
 };

@@ -33,7 +33,7 @@ const TextField: FC<ITextField> = ({
   };
 
   return (
-    <div className="mb-2">
+    <div className="m-2">
       <label htmlFor={name}>{label}</label>
       <div className="input-group has-validation">
         <input

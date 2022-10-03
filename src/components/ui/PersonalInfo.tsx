@@ -10,7 +10,7 @@ import { getOceans } from '../../store/ocean';
 import shema from '../../data/schema.json';
 import ModalWindow from '../common/modalWindow';
 import { updatePersonalInfo } from '../../store/personalInfo';
-// import DateField from '../common/dateField';
+import DateField from '../common/dateField';
 
 type IErrors = {
   firstName?: string;
@@ -24,7 +24,7 @@ type IErrors = {
 type IPersonalInfo = {
   firstName?: string;
   lastName?: string;
-  sex?: string;
+  sex: string;
   birthday?: string;
   ocean?: string;
   hobbies?: string[];
@@ -34,7 +34,7 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
   const [data, setData] = useState<IPersonalInfo>({
     firstName: '',
     lastName: '',
-    sex: 'male',
+    sex: '',
     birthday: '',
     ocean: '',
     hobbies: [],
@@ -69,7 +69,7 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
   const validatorConfig = {
     firstName: {
       isRequired: shema.firstName.required
-        ? { message: 'First Name number is required' }
+        ? { message: 'First Name is required' }
         : '',
       min: {
         message: `First Name must be at least ${shema.firstName.minLength} characters long`,
@@ -82,7 +82,7 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
     },
     lastName: {
       isRequired: shema.lastName.required
-        ? { message: 'Last Name number is required' }
+        ? { message: 'Last Name is required' }
         : '',
       min: {
         message: `Password must be at least ${shema.password.minLength} characters long`,
@@ -164,6 +164,12 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
         name="sex"
         onChange={handleChange}
         label="Choose your gender"
+        error={errors.sex}
+      />
+      <DateField
+        name="birthday"
+        onChange={handleChange}
+        error={errors.ocean}
       />
       <SelectField
         label="Your favorite ocean"
@@ -171,24 +177,17 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
         options={oceans}
         name="ocean"
         onChange={handleChange}
-        value={data.ocean}
         error={errors.ocean}
       />
-      <div>
-        <p className="m-1">Your favorite hobbies</p>
-        <div className="d-flex flex-row">
-          {hobbies.map((hobby) => {
-            return (
-              <CheckBoxField
-                value={hobby}
-                onChange={handleChange}
-                name="hobbies"
-                error={errors.hobbies}
-              />
-            );
-          })}
-        </div>
-      </div>
+
+      <p className="m-1">Your favorite hobbies</p>
+      <CheckBoxField
+        onChange={handleChange}
+        name="hobbies"
+        options={hobbies}
+        error={errors.hobbies}
+      />
+
       <div className="d-flex flex-row">
         <button className="btn btn-warning w-100 m-1" onClick={formType}>
           Change SingUp

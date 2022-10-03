@@ -1,26 +1,29 @@
 import React, { FC } from 'react';
 
+type IOptions = {
+  name: string;
+  value: string;
+};
+
 type ISelectField = {
   label: string;
   type?: string;
   name: string;
   defaultOption: string;
   options: string[];
-  value: any;
   onChange: (target: { name: string; value: string }) => void;
-  error?: any;
+  error?: string;
 };
 
 const SelectField: FC<ISelectField> = ({
   label,
-  value,
   onChange,
   defaultOption,
   options,
   name,
   error,
 }) => {
-  const handleChange = ({ target }) => {
+  const handleChange = ({ target }: { target: IOptions }) => {
     onChange({ name: target.name, value: target.value });
   };
 
@@ -37,8 +40,6 @@ const SelectField: FC<ISelectField> = ({
         className={getInputClasses()}
         id={name}
         name={name}
-        value={value._id}
-        //@ts-ignore
         onChange={handleChange}
         defaultValue={defaultOption}
       >
