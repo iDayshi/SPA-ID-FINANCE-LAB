@@ -63,6 +63,10 @@ export function validator(data: any, config: any) {
         statusValidate = data !== checkPassword;
         break;
       }
+      case 'isNumber': {
+        statusValidate = isNaN(+data);
+        break;
+      }
       default:
         break;
     }

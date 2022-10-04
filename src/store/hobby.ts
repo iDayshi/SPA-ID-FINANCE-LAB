@@ -5,13 +5,11 @@ const hobbiesSlice = createSlice({
   name: 'hobbies',
   initialState: {
     entities: shema.hobby.anyOf,
-    isLoading: true,
   },
   reducers: {
     hobbiesReceved: (state, action) => {
       state.entities = action.payload;
-      state.isLoading = false;
-    },
+          },
   },
 });
 
@@ -25,9 +23,5 @@ export const loadingHobbiesList =
 
 export const getHobbies = () => (state: { hobbies: { entities: any } }) =>
   state.hobbies.entities;
-
-export const getHobbiesLoadingStatus =
-  () => (state: { hobbies: { isLoading: boolean } }) =>
-    state.hobbies.isLoading;
 
 export default hobbiesReducer;

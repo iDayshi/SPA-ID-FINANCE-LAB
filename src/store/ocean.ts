@@ -5,12 +5,10 @@ const oceansSlice = createSlice({
   name: 'oceans',
   initialState: {
     entities: null,
-    isLoading: true,
   },
   reducers: {
     oceansReceved: (state, action) => {
       state.entities = action.payload;
-      state.isLoading = false;
     },
   },
 });

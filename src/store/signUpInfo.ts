@@ -4,12 +4,10 @@ const SignUpInfoSlice = createSlice({
   name: 'signUpInfo',
   initialState: {
     entities: null,
-    isLogin: false,
   },
   reducers: {
     SignUpInfoRequested: (state, action) => {
       state.entities = action.payload;
-      state.isLogin = true;
     },
   },
 });

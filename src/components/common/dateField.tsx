@@ -18,9 +18,7 @@ const DateField: FC<IDateField> = ({ day, month, year, onChange, error }) => {
     onChange({ name: target.name, value: target.value });
   };
   const getInputClasses = () => {
-    return (
-      'form-control' + (Object.keys(error).length ? ' is-invalid' : '')
-    );
+    return 'form-control' + (Object.keys(error).length ? ' is-invalid' : '');
   };
 
   return (

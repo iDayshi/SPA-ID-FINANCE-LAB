@@ -4,12 +4,10 @@ const PersonalInfoSlice = createSlice({
   name: 'personalInfo',
   initialState: {
     entities: null,
-    isLogin: false,
   },
   reducers: {
     PersonalInfoRequested: (state, action) => {
       state.entities = action.payload;
-      state.isLogin = true;
     },
   },
 });

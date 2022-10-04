@@ -24,13 +24,40 @@ function ModalWindow({ show, onHide }: { show: boolean; onHide: () => void }) {
       </Modal.Header>
       <Modal.Body>
         <p>Information User</p>
-        <p>Phone:{signUpInfo.phone}</p>
-        <p>Email:{signUpInfo.email}</p>
-        <p>Gender: {personalInfo.sex}</p>
-        <p>Favorite ocean: {personalInfo.ocean}</p>
-        <p>Favorite ocean: {personalInfo.ocean}</p>
-        <p>Favorite ocean: {personalInfo.ocean}</p>
-        <p>Hobbies: {personalInfo.hobbies}</p>
+        <p>
+          <span className="text-primary">Phone: </span>
+          {signUpInfo.phone}
+        </p>
+        <p>
+          <span className="text-primary">Email: </span>
+          {signUpInfo.email}
+        </p>
+        <p>
+          <span className="text-primary">Gender: </span>
+          {personalInfo.sex}
+        </p>
+        <p>
+          <span className="text-primary">Birthday: </span>
+          {personalInfo.day +
+            '.' +
+            personalInfo.month +
+            '.' +
+            personalInfo.year}
+        </p>
+        <p>
+          <span className="text-primary">Age: </span>
+          {personalInfo.age}
+        </p>
+        <p>
+          <span className="text-primary">Favorite ocean: </span>
+          {personalInfo.ocean}
+        </p>
+        <p>
+          <span className="text-primary">Hobbies: </span>
+          {personalInfo.hobbies.reduce((acc: string, hobby: string) => {
+            return acc + `  ${hobby}`;
+          }, '')}
+        </p>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>

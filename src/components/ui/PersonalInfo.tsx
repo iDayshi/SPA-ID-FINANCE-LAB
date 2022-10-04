@@ -76,9 +76,13 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
       );
 
       let ageUser = today.getFullYear() - birthDate.getFullYear();
-      let m = today.getMonth() - birthDate.getMonth();
+      let checkedBirthDateInToYear = today.getMonth() - birthDate.getMonth();
 
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      if (
+        checkedBirthDateInToYear < 0 ||
+        (checkedBirthDateInToYear === 0 &&
+          today.getDate() < birthDate.getDate())
+      ) {
         ageUser--;
       }
       setData((PrevState) => ({
@@ -138,12 +142,13 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
       isRequired: shema.firstName.required
         ? { message: 'Day is required' }
         : '',
+      isNumber: { message: `Day must be a number` },
       minDate: {
-        message: `Minimum 1`,
+        message: `Minimum day 1`,
         value: 1,
       },
       maxDate: {
-        message: `Maximum 31`,
+        message: `Maximum day 31`,
         value: 31,
       },
     },
@@ -151,12 +156,13 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
       isRequired: shema.firstName.required
         ? { message: 'Month is required' }
         : '',
+      isNumber: { message: `Month must be a number` },
       minDate: {
-        message: `Minimum 1`,
+        message: `Minimum month 1`,
         value: 1,
       },
       maxDate: {
-        message: `Minimum 12`,
+        message: `Minimum month 12`,
         value: 12,
       },
     },
@@ -164,12 +170,13 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
       isRequired: shema.firstName.required
         ? { message: 'Year is required' }
         : '',
+      isNumber: { message: `Year must be a number` },
       minDate: {
-        message: `Minimum 1900`,
+        message: `Minimum yaer 1900`,
         value: 1900,
       },
       maxDate: {
-        message: `Maximum 2050`,
+        message: `Maximum year 2050`,
         value: 2050,
       },
     },
@@ -179,6 +186,14 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
             message: 'Please enter your birthday',
           }
         : '',
+      minDate: {
+        message: `Minimum age ${shema.birthday.minAge}`,
+        value: shema.birthday.minAge,
+      },
+      maxDate: {
+        message: `Minimum age ${shema.birthday.maxAge}`,
+        value: shema.birthday.maxAge,
+      },
     },
     ocean: {
       isRequired: shema.ocean.required
@@ -198,7 +213,6 @@ const PersonalInfo = ({ formType }: { formType: () => void }) => {
 
   useEffect(() => {
     validate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const validate = () => {
